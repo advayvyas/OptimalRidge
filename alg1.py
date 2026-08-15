@@ -6,20 +6,7 @@ np.set_printoptions(
     linewidth=10000
 )
 
-def algorithm2(N = 100, d = 150):
-    
-    theta = (rng.standard_normal(size = d))[:, np.newaxis]
-    # print(theta)
-    # print((X[2]).T @ theta)
-    
-    z = (rng.standard_normal(size = N))[:, np.newaxis]
-    # print(z)
-
-    epsilon = 6.767
-    # print(epsilon * z)
-
-    y = X @ theta + epsilon * z
-    # print(y)
+rng = np.random.default_rng(seed=77)
 
 def GenXData(N=100, d=120, Sigma=None):
     if Sigma is None:
@@ -32,12 +19,32 @@ def GenXData(N=100, d=120, Sigma=None):
     mu = np.zeros(d)
     
     X = rng.multivariate_normal(mean = mu, cov = Sigma, size = N)
-    # print(X)
 
-    return ((np.eye(N) - 1/N * np.ones(N) @ np.ones(N).T) @ X)
+    return (X - X.mean(axis=0))
 
-N = 6
-d = 8
-Sigma = np.eye(d)
-GenXData(N, d, Sigma)
+def GenYData(X, N, theta, epsilon):
+    rng = np.random.default_rng(seed=77)
+
+    z = (rng.standard_normal(size = N))[:, np.newaxis]
+
+    y = X @ theta + epsilon * z
+
+    return (y - y.mean(axis=0))
+    
+def algorithm(Sigma, theta, N = 10, d = 12, epsilon = 6.767):
+    X = GenXData(N, d, Sigma)
+    y = GenYData(X, N, theta, epsilon)
+    return X, y
+
+if __name__ == "__main__":
+    N = 6
+    d = 8
+    Sigma = np.eye(d)
+    theta = (rng.standard_normal(size=d))[:, np.newaxis]
+    epsilon = 6.767
+
+    X, y = algorithm(N = N, d = d, Sigma = Sigma, theta = theta, epsilon = epsilon)
+
+    print(X)
+    print(y)
 
