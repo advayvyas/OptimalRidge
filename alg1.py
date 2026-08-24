@@ -8,17 +8,17 @@ np.set_printoptions(
 
 rng = np.random.default_rng(seed=77)
 
-def GenXData(N=100, d=120, Sigma=None):
-    if Sigma is None:
-        Sigma = np.eye(d)
-    elif Sigma.shape != (d, d):
-        raise ValueError(f"Sigma must be {d}x{d}, got {Sigma.shape}")
+def GenXData(N=100, D=120, sigma=None):
+    if sigma is None:
+        sigma = np.eye(D)
+    elif sigma.shape != (D, D):
+        raise ValueError(f"Sigma must be {D}x{D}, got {sigma.shape}")
 
     rng = np.random.default_rng(seed=77)
 
-    mu = np.zeros(d)
+    mu = np.zeros(D)
     
-    X = rng.multivariate_normal(mean = mu, cov = Sigma, size = N)
+    X = rng.multivariate_normal(mean = mu, cov = sigma, size = N)
 
     return (X - X.mean(axis=0))
 
@@ -31,19 +31,19 @@ def GenYData(X, N, theta, epsilon):
 
     return (y - y.mean(axis=0))
     
-def algorithm(Sigma, theta, N = 10, d = 12, epsilon = 6.767):
-    X = GenXData(N, d, Sigma)
+def algorithm(sigma, theta, N = 10, D = 12, epsilon = 6.767):
+    X = GenXData(N, D, sigma)
     y = GenYData(X, N, theta, epsilon)
     return X, y
 
 if __name__ == "__main__":
     N = 6
-    d = 8
-    Sigma = np.eye(d)
-    theta = (rng.standard_normal(size=d))[:, np.newaxis]
+    D = 8
+    sigma = np.eye(D)
+    theta = (rng.standard_normal(size=D))[:, np.newaxis]
     epsilon = 6.767
 
-    X, y = algorithm(N = N, d = d, Sigma = Sigma, theta = theta, epsilon = epsilon)
+    X, y = algorithm(N = N, D = D, sigma = sigma, theta = theta, epsilon = epsilon)
 
     print(X)
     print(y)
