@@ -1,5 +1,11 @@
 {
     "python-envs.defaultEnvManager": "ms-python.python:conda",
     "python-envs.defaultPackageManager": "ms-python.python:conda",
-    "pylint.args": [ "--disable=missing-module-docstring"]
+    "pylint.args": [ "--disable=missing-module-docstring", 
+        "--argument-naming-style=any",
+        "--attr-naming-style=any",
+        "--function-naming-style=any",
+        "--method-naming-style=any",
+        "--variable-naming-style=any"
+    ]
 }

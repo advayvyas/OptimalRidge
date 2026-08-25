@@ -6,45 +6,36 @@ np.set_printoptions(
     linewidth=10000
 )
 
-rng = np.random.default_rng(seed=77)
-
-def GenXData(N=100, D=120, sigma=None):
-    if sigma is None:
-        sigma = np.eye(D)
-    elif sigma.shape != (D, D):
-        raise ValueError(f"Sigma must be {D}x{D}, got {sigma.shape}")
-
+def GenXData(N, D, sigma):
     rng = np.random.default_rng(seed=77)
 
     mu = np.zeros(D)
-    
     X = rng.multivariate_normal(mean = mu, cov = sigma, size = N)
-
-    return (X - X.mean(axis=0))
+    return X - X.mean(axis=0)
 
 def GenYData(X, N, theta, epsilon):
     rng = np.random.default_rng(seed=77)
 
     z = (rng.standard_normal(size = N))[:, np.newaxis]
-
     y = X @ theta + epsilon * z
+    return y - y.mean(axis=0)
 
-    return (y - y.mean(axis=0))
-    
-def algorithm(sigma, theta, N = 10, D = 12, epsilon = 6.767):
+def GenData(sigma, theta, N, D, epsilon):
     X = GenXData(N, D, sigma)
     y = GenYData(X, N, theta, epsilon)
     return X, y
 
 if __name__ == "__main__":
-    N = 6
-    D = 8
-    sigma = np.eye(D)
-    theta = (rng.standard_normal(size=D))[:, np.newaxis]
-    epsilon = 6.767
+    rng_trial = np.random.default_rng(seed=77)
 
-    X, y = algorithm(N = N, D = D, sigma = sigma, theta = theta, epsilon = epsilon)
+    N_TRIAL = 6
+    D_TRIAL = 8
+    sigma_trial = np.eye(D_TRIAL)
+    theta_trial = (rng_trial.standard_normal(size=D_TRIAL))[:, np.newaxis]
+    EPSILON = 6.767
 
-    print(X)
-    print(y)
+    X_trial, y_trial = GenData(N = N_TRIAL, D = D_TRIAL, sigma = sigma_trial,
+        theta = theta_trial, epsilon = EPSILON)
 
+    print(X_trial)
+    print(y_trial)

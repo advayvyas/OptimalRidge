@@ -17,7 +17,7 @@ def H(S, V, theta, lambda_):
     top = np.sum((sigma ** 4) / (sigma ** 2 + lambda_) ** 3)
     bottom = np.sum((sigma ** 4) * (projections ** 2) / (sigma ** 2 + lambda_) ** 3)
 
-    return (top / bottom)
+    return top / bottom
 
 def mse(S, V, theta, lambda_, epsilon):
     min_D_N = min(S.shape)
@@ -34,7 +34,7 @@ def ModelOptReg(S, V, theta, epsilon, lambda_0, delta):
     lambda_ = lambda_0
     lambda_p = lambda_0 + 2 * delta
 
-    while(np.abs(lambda_ - lambda_p) > delta):
+    while np.abs(lambda_ - lambda_p) > delta:
         lambda_p = lambda_
         lambda_ = (epsilon ** 2) * H(S, V, theta, lambda_)
 
@@ -42,15 +42,15 @@ def ModelOptReg(S, V, theta, epsilon, lambda_0, delta):
 
 if __name__ == "__main__":
     # trial
-    N = 1000
-    d = 2000
-    S = np.eye(N, d)
-    V = np.eye(d)
-    theta = (rng.standard_normal(size=d))[:, np.newaxis]
-    lambda_0 = 1  
-    epsilon = 6.767 
-    delta = (10 ** -4)
-    
-    lambda_, mse_value = ModelOptReg(S, V, theta, epsilon, lambda_0, delta)
-    print(lambda_)
+    N_TRIAL = 1000
+    D_TRIAL = 2000
+    S_trial = np.eye(N_TRIAL, D_TRIAL)
+    V_trial = np.eye(D_TRIAL)
+    theta_trial = (rng.standard_normal(size=D_TRIAL))[:, np.newaxis]
+    LAMBDA_0 = 1
+    EPSILON = 6.767
+    DELTA = 10 ** -4
+
+    lambda_trial, mse_value = ModelOptReg(S_trial, V_trial, theta_trial, EPSILON, LAMBDA_0, DELTA)
+    print(lambda_trial)
     print(mse_value)
