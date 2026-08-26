@@ -1,2 +1,2 @@
-# RidgeReading
-A codebase for an optimized method of finding the ridge regression parameter.
+# OptimalRidge
+A codebase for an optimized fixed point method of finding the ridge regression parameter.
