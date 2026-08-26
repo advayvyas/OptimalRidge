@@ -7,8 +7,6 @@ np.set_printoptions(
     linewidth=10000
 )
 
-rng = np.random.default_rng(seed=77)
-
 def EpsilonEstimate(X, y, y_hat, p, lambda_0):
     U, S, Vt = np.linalg.svd(X) # pylint: disable=unused-variable
 
@@ -41,6 +39,3 @@ def SampleOptReg(X, y, lambda_0, p, delta):
     epsilon_hat = EpsilonEstimate(X, y, y_hat, p, lambda_0 = 1)
 
     return alg2.ModelOptReg(S, V, theta_hat, epsilon_hat, lambda_0, delta)
-
-if __name__ == "__main__":
-    print("code run")

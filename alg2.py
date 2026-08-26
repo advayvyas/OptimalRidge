@@ -6,8 +6,6 @@ np.set_printoptions(
     linewidth=10000
 )
 
-rng = np.random.default_rng(seed=77)
-
 def H(S, V, theta, lambda_):
     min_D_N = min(S.shape)
     sigma = np.diag(S)[:min_D_N]
@@ -42,6 +40,8 @@ def ModelOptReg(S, V, theta, epsilon, lambda_0, delta):
 
 if __name__ == "__main__":
     # trial
+    rng = np.random.default_rng(seed=77)
+
     N_TRIAL = 1000
     D_TRIAL = 2000
     S_trial = np.eye(N_TRIAL, D_TRIAL)
