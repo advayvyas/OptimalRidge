@@ -7,6 +7,7 @@
         "--function-naming-style=any",
         "--method-naming-style=any",
         "--variable-naming-style=any",
-        "--disable=too-many-arguments, too-many-positional-arguments"
+        "--disable=too-many-arguments, too-many-positional-arguments",
+        "--disable=too-many-locals"
     ]
 }
