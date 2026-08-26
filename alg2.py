@@ -7,6 +7,20 @@ np.set_printoptions(
 )
 
 def H(S, V, theta, lambda_):
+    """
+    Calculates the H of the given lambda where H(lambda) is 
+        related to lambda by a factor of amplitude squared.
+    
+    Args:
+        S: the singular value matrix of X from its SVD decomposition, 
+            with singular values on the main diagonal.
+        V: the matrix of right eigenvectors of X from its SVD decomposition.
+        theta: the true parameter vector.
+        lambda_: the ridge regression parameter.
+    
+    Returns:
+        The value of H(lambda) as a constant.
+    """
     min_D_N = min(S.shape)
     sigma = np.diag(S)[:min_D_N]
 
@@ -18,6 +32,20 @@ def H(S, V, theta, lambda_):
     return top / bottom
 
 def mse(S, V, theta, lambda_, epsilon):
+    """
+    Calculates the mean squared error of the given parameters, in particular lambda.
+
+    Args:
+        S: the singular value matrix of X from its SVD decomposition, 
+            with singular values on the main diagonal.
+        V: the matrix of right eigenvectors of X from its SVD decomposition.
+        theta: the true parameter vector.
+        lambda_: the ridge regression parameter.
+        epsilon: the noise amplitude.
+
+    Returns:
+        The expected out-of-sample mean squared error as a constant.
+    """
     min_D_N = min(S.shape)
     sigma = np.diag(S)[:min_D_N]
 
@@ -29,6 +57,21 @@ def mse(S, V, theta, lambda_, epsilon):
     return (1 / S.shape[0]) * (bias_squared + variance) + (epsilon ** 2)
 
 def ModelOptReg(S, V, theta, epsilon, lambda_0, delta):
+    """
+    Calculates the optimal ridge regression parameter through a fixed-point method.
+
+    Args:
+        S: the singular value matrix of X from its SVD decomposition, 
+            with singular values on the main diagonal.
+        V: the matrix of right eigenvectors of X from its SVD decomposition.
+        theta: the true parameter vector.
+        epsilon: the noise amplitude.
+        lambda_0: the initial regression parameter, often set to 1.
+        delta: the iteration step size from lambda to lambda, often set to 10^{-4}.
+
+    Returns:
+        The optimal lambda and its corresponding MSE value as a tuple.
+    """
     lambda_ = lambda_0
     lambda_p = lambda_0 + 2 * delta
 
@@ -51,6 +94,8 @@ if __name__ == "__main__":
     EPSILON = 6.767
     DELTA = 10 ** -4
 
-    lambda_trial, mse_value = ModelOptReg(S_trial, V_trial, theta_trial, EPSILON, LAMBDA_0, DELTA)
+    lambda_trial, mse_value = ModelOptReg(S_trial, V_trial,
+        theta_trial, EPSILON, LAMBDA_0, DELTA)
+
     print(lambda_trial)
     print(mse_value)

@@ -11,9 +11,10 @@ def GenXData(N, D, sigma):
     Generates a random mean-centered X from a multivariate normal distribution.
 
     Args:
-        N: the number of observations
-        D: the number of parameters
-        sigma: the covariance matrix of the data (X)
+        N: the number of observations.
+        D: the number of parameters.
+        sigma: the covariance matrix of the data matrix 
+            X with shape DxD.
 
     Returns:
         A matrix X of the shape NxD (N rows, D columns).
@@ -29,10 +30,10 @@ def GenYData(X, N, theta, epsilon):
     Generates a random mean-centered y from a standard normal distribution.
 
     Args:
-        N: the number of observations
-        D: the number of parameters
-        theta: the true parameter vector
-        epsilon: the noise amplitude
+        N: the number of observations.
+        D: the number of parameters.
+        theta: the true parameter vector.
+        epsilon: the noise amplitude.
 
     Returns:
         A column vector y of the shape Nx1 (N rows, 1 column).
@@ -45,14 +46,15 @@ def GenYData(X, N, theta, epsilon):
 
 def GenData(sigma, theta, N, D, epsilon):
     """
-    Generates random mean-centered X and y from GenXData, GenYData.
+    Generates random mean-centered X and y from the methods GenXData, GenYData.
 
     Args:
-        sigma: the covariance matrix of the data (X)
-        theta: the true parameter vector
-        N: the number of observations
-        D: the number of parameters
-        epsilon: the noise amplitude
+        sigma: the covariance matrix of the data matrix 
+            X with shape DxD.
+        theta: the true parameter vector.
+        N: the number of observations.
+        D: the number of parameters.
+        epsilon: the noise amplitude.
 
     Returns:
         A matrix X (NxD) and vector y (Nx1).

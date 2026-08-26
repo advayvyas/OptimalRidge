@@ -6,6 +6,7 @@
         "--attr-naming-style=any",
         "--function-naming-style=any",
         "--method-naming-style=any",
-        "--variable-naming-style=any"
+        "--variable-naming-style=any",
+        "--disable=too-many-arguments, too-many-positional-arguments"
     ]
 }
