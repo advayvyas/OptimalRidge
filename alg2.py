@@ -66,7 +66,7 @@ def ModelOptReg(S, V, theta, epsilon, lambda_0, delta):
         V: the matrix of right eigenvectors of X from its SVD decomposition.
         theta: the true parameter vector.
         epsilon: the noise amplitude.
-        lambda_0: the initial regression parameter, often set to 1.
+        lambda_0: the initial ridge regression parameter, often set to 1.
         delta: the iteration step size from lambda to lambda, often set to 10^{-4}.
 
     Returns:

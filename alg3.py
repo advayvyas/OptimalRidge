@@ -7,7 +7,21 @@ np.set_printoptions(
     linewidth=10000
 )
 
-def EpsilonEstimate(X, y, y_hat, p, lambda_0):
+def EpsilonEstimate(X, y, y_hat, p, lambda_0): # pylint: disable=too-many-locals
+    """
+    Calculates the estimate of the noise amplitude 
+        in the overparameterized and undeparameterized case.
+
+    Args:
+        X: the data matrix X with shape NxD.
+        y: the truth vector with shape Nx1.
+        y_hat: the prediction vector with shape Nx1.
+        p: the exponent parameter for the regularized rank.
+        lambda_0: the initial ridge regression parameter, often set to 1.
+
+    Returns:
+        The estimate of the noise amplitude as a constant.
+    """
     U, S, Vt = np.linalg.svd(X) # pylint: disable=unused-variable
 
     N = S.shape[0]
@@ -27,6 +41,21 @@ def EpsilonEstimate(X, y, y_hat, p, lambda_0):
     return epsilon_hat
 
 def SampleOptReg(X, y, lambda_0, p, delta):
+    """
+    Calculates the ridge regression parameter through a 
+        fixed-point method, with approximations from the sample used.
+
+    Args:
+        X: the data matrix X with shape NxD.
+        y: the truth vector with shape Nx1.
+        lambda_0: the initial ridge regression parameter, often set to 1.
+        p: the exponent parameter for the regularized rank.
+        delta: the iteration step size from lambda to lambda, often set to 10^{-4}.
+
+    Returns:
+        The approximate optimal lambda and its corresponding MSE value as a tuple.
+    """
+
     U, S, Vt = np.linalg.svd(X)
     V = Vt.T
 
