@@ -6,14 +6,14 @@ np.set_printoptions(
     linewidth=10000
 )
 
-def GenXData(N, D, sigma):
+def GenXData(N, D, Sigma):
     """
     Generates a random mean-centered X from a multivariate normal distribution.
 
     Args:
         N: the number of observations.
         D: the number of parameters.
-        sigma: the covariance matrix of the data matrix 
+        Sigma: the covariance matrix of the data matrix 
             X with shape DxD.
 
     Returns:
@@ -22,7 +22,7 @@ def GenXData(N, D, sigma):
     rng = np.random.default_rng(seed=77)
 
     mu = np.zeros(D)
-    X = rng.multivariate_normal(mean = mu, cov = sigma, size = N)
+    X = rng.multivariate_normal(mean = mu, cov = Sigma, size = N)
     return X - X.mean(axis=0)
 
 def GenYData(X, N, theta, epsilon):
@@ -30,8 +30,8 @@ def GenYData(X, N, theta, epsilon):
     Generates a random mean-centered y from a standard normal distribution.
 
     Args:
+        X: the data matrix with shape NxD.
         N: the number of observations.
-        D: the number of parameters.
         theta: the true parameter vector.
         epsilon: the noise amplitude.
 
@@ -44,12 +44,12 @@ def GenYData(X, N, theta, epsilon):
     y = X @ theta + epsilon * z
     return y - y.mean(axis=0)
 
-def GenData(sigma, theta, N, D, epsilon):
+def GenData(Sigma, theta, N, D, epsilon):
     """
     Generates random mean-centered X and y from the methods GenXData, GenYData.
 
     Args:
-        sigma: the covariance matrix of the data matrix 
+        Sigma: the covariance matrix of the data matrix 
             X with shape DxD.
         theta: the true parameter vector.
         N: the number of observations.
@@ -59,7 +59,7 @@ def GenData(sigma, theta, N, D, epsilon):
     Returns:
         A matrix X (NxD) and vector y (Nx1).
     """
-    X = GenXData(N, D, sigma)
+    X = GenXData(N, D, Sigma)
     y = GenYData(X, N, theta, epsilon)
     return X, y
 
@@ -68,11 +68,11 @@ if __name__ == "__main__":
 
     N_TRIAL = 6
     D_TRIAL = 8
-    sigma_trial = np.eye(D_TRIAL)
+    Sigma_trial = np.eye(D_TRIAL)
     theta_trial = (rng_trial.standard_normal(size=D_TRIAL))[:, np.newaxis]
     EPSILON = 6.767
 
-    X_trial, y_trial = GenData(N = N_TRIAL, D = D_TRIAL, sigma = sigma_trial,
+    X_trial, y_trial = GenData(N = N_TRIAL, D = D_TRIAL, Sigma = Sigma_trial,
         theta = theta_trial, epsilon = EPSILON)
 
     print(X_trial)
