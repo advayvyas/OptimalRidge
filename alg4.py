@@ -107,7 +107,7 @@ def EvaluateFixedX(N, D, Sigma, epsilon, m_theta, m_X, m_y): # pylint: disable=t
     mse_signal_noise = np.zeros(shape = (m_X, m_theta, m_y))
 
     # for i_theta in range(m_theta):
-    for i_theta in tqdm(range(m_theta), desc="Evaluating theta values"): # pylint: disable=undefined-variable
+    for i_theta in tqdm(range(m_theta), desc="Evaluating theta values"):
         theta = rng.standard_normal(size=D)[:, np.newaxis]
         theta = theta / np.linalg.norm(theta)
 
@@ -136,34 +136,41 @@ def EvaluateFixedX(N, D, Sigma, epsilon, m_theta, m_X, m_y): # pylint: disable=t
                 lambda_signal_noise[i_X, i_theta, i_y], mse_signal_noise[i_X,
                     i_theta, i_y] = SignalNoiseLambda(U, S, V, y, lambda_0, p)
 
-    lambda_min_bootstrap = scipy.stats.bootstrap((lambda_min.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
-    mse_min_bootstrap = scipy.stats.bootstrap((mse_min.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar = tqdm(total=9, desc="Bootstrapping values")
+    # lambda_min_bootstrap = scipy.stats.bootstrap((lambda_min.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
+    # mse_min_bootstrap = scipy.stats.bootstrap((mse_min.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
 
-    lambda_fixed_pt_bootstrap = scipy.stats.bootstrap((lambda_fixed_pt.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
-    mse_fixed_pt_bootstrap = scipy.stats.bootstrap((mse_fixed_pt.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # lambda_fixed_pt_bootstrap = scipy.stats.bootstrap((lambda_fixed_pt.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
+    # mse_fixed_pt_bootstrap = scipy.stats.bootstrap((mse_fixed_pt.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
 
-    lambda_sample_fixed_pt_bootstrap = scipy.stats.bootstrap((lambda_sample_fixed_pt.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
-    mse_sample_fixed_pt_bootstrap = scipy.stats.bootstrap((mse_sample_fixed_pt.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # lambda_sample_fixed_pt_bootstrap = scipy.stats.bootstrap((lambda_sample_fixed_pt.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
+    # mse_sample_fixed_pt_bootstrap = scipy.stats.bootstrap((mse_sample_fixed_pt.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
 
-    lambda_signal_noise_bootstrap = scipy.stats.bootstrap((lambda_signal_noise.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
-    mse_signal_noise_bootstrap = scipy.stats.bootstrap((mse_signal_noise.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # lambda_signal_noise_bootstrap = scipy.stats.bootstrap((lambda_signal_noise.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
+    # mse_signal_noise_bootstrap = scipy.stats.bootstrap((mse_signal_noise.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
 
-    mse_default_bootstrap = scipy.stats.bootstrap((mse_default.flatten(),),
-        np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # mse_default_bootstrap = scipy.stats.bootstrap((mse_default.flatten(),),
+    #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
+    # pbar.update(1)
 
-    return (lambda_min_bootstrap, mse_min_bootstrap,
-                lambda_fixed_pt_bootstrap, mse_fixed_pt_bootstrap,
-                lambda_sample_fixed_pt_bootstrap, mse_sample_fixed_pt_bootstrap,
-                lambda_signal_noise_bootstrap, mse_signal_noise_bootstrap,
-                mse_default_bootstrap)
+    return (lambda_min, lambda_fixed_pt, lambda_sample_fixed_pt, lambda_signal_noise), (mse_min, 
+        mse_fixed_pt, mse_sample_fixed_pt, mse_signal_noise, mse_default)
 
 if __name__ == "__main__":
     # trial
