@@ -1,5 +1,5 @@
 import numpy as np
-import scipy
+import scipy # pylint: disable=unused-import
 from scipy.optimize import minimize_scalar
 from tqdm.auto import tqdm
 import alg1
@@ -88,7 +88,7 @@ def EvaluateFixedX(N, D, Sigma, epsilon, m_theta, m_X, m_y): # pylint: disable=t
     lambda_0 = 1
     delta = 10 ** -4
     p = 1/4
-    bootstrap_batch = 1024
+    bootstrap_batch = 1024 # pylint: disable=unused-variable
     rng = np.random.default_rng(seed=77)
 
     lambda_default = 1
@@ -169,7 +169,7 @@ def EvaluateFixedX(N, D, Sigma, epsilon, m_theta, m_X, m_y): # pylint: disable=t
     #     np.median, confidence_level = 0.95, method = 'BCa', batch = bootstrap_batch, rng = rng)
     # pbar.update(1)
 
-    return (lambda_min, lambda_fixed_pt, lambda_sample_fixed_pt, lambda_signal_noise), (mse_min, 
+    return (lambda_min, lambda_fixed_pt, lambda_sample_fixed_pt, lambda_signal_noise), (mse_min,
         mse_fixed_pt, mse_sample_fixed_pt, mse_signal_noise, mse_default)
 
 if __name__ == "__main__":
