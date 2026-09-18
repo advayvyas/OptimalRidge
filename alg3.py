@@ -31,7 +31,7 @@ def EpsilonEstimate(X, U, S, V, y, p, lambda_0):
     r_p = np.sum(((sigma ** 2) / (sigma ** 2 + lambda_0)) ** p)
 
     if N > D:
-        theta_hat = V[:, :min_D_N] @ ((sigma / (sigma **2 + lambda_0))[:, None] * (U[:, :min_D_N].T @ y))
+        theta_hat = V[:, :min_D_N] @ ((sigma / (sigma**2 + lambda_0))[:, np.newaxis] * (U[:, :min_D_N].T @ y))
         y_hat = X @ theta_hat
         epsilon_hat = np.sqrt((1/(N-1) * np.sum((y_hat - y) ** 2)) / (1 - r_p/N))
     else:
@@ -40,17 +40,19 @@ def EpsilonEstimate(X, U, S, V, y, p, lambda_0):
         X2, y2 = X[h:], y[h:]
 
         # fit on fold 1, predict fold 2 (out-of-sample)
-        U1, s1, V1 = np.linalg.svd(X1, full_matrices=False)
-        S1 = np.diag(s1)
-        N1, D1 = S1.shape
-        theta1 = V1 @ np.linalg.pinv(S1.T @ S1 + lambda_0 * np.eye(N1, D1)) @ U1.T @ y1
+        U1, s1, Vt1 = np.linalg.svd(X1, full_matrices=False)
+        V1 = Vt1.T
+        N1, D1 = X1.shape
+        min_D_N_1 = min(N1, D1)
+        theta1 = V1[:, :min_D_N_1] @ ((s1 / (s1**2 + lambda_0))[:, np.newaxis] * (U1[:, :min_D_N_1].T @ y1))
         y_hat2 = X2 @ theta1
 
         # fit on fold 2, predict fold 1 (out-of-sample)
-        U2, s2, V2 = np.linalg.svd(X2, full_matrices=False)
-        S2 = np.diag(s2)
-        N2, D2 = S2.shape
-        theta2 = V2 @ np.linalg.pinv(S2.T @ S2 + lambda_0 * np.eye(N2, D2)) @ U2.T @ y2
+        U2, s2, Vt2 = np.linalg.svd(X2, full_matrices=False)
+        V2 = Vt2.T
+        N2, D2 = X2.shape
+        min_D_N_2 = min(N2, D2)
+        theta2 = V2[:, :min_D_N_2] @ ((s2 / (s2**2 + lambda_0))[:, np.newaxis] * (U2[:, :min_D_N_2].T @ y2))
         y_hat1 = X1 @ theta2
 
         mse_oos = (1/N) * (np.sum((y_hat2 - y2) ** 2) + np.sum((y_hat1 - y1) ** 2))
@@ -79,8 +81,10 @@ def SampleOptReg(U, S, V, y, lambda_0, p, delta):
 
     X = U @ S @ (V.T)
     N, D = S.shape
+    min_D_N = min(N, D)
+    sigma = np.diag(S)
 
-    theta_hat = V @ np.linalg.pinv(S.T @ S + lambda_0 * np.eye(D)) @ S.T @ U.T @ y
+    theta_hat = V[:, :min_D_N] @ ((sigma / (sigma**2 + lambda_0))[:, np.newaxis] * (U[:, :min_D_N].T @ y))
 
     epsilon_hat = EpsilonEstimate(X, U, S, V, y, p, lambda_0)
 
