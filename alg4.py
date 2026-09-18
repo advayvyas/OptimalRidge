@@ -55,7 +55,7 @@ def SignalNoiseLambda(U, S, V, y, lambda_0, p): # pylint: disable=too-many-local
     X = U @ S @ (V.T)
     N, D = S.shape
 
-    theta_hat = V @ np.linalg.pinv(S + (lambda_0 * np.eye(N, D))) @ (U.T) @ y
+    theta_hat = V @ np.linalg.pinv(S + (lambda_0 * np.eye(N, D))) @ (U.T) @ y # TODO: BROKEN
     y_hat = X @ theta_hat
 
     epsilon_hat = alg3.EpsilonEstimate(S, y, y_hat, p, lambda_0 = 1)
